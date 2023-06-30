@@ -51,6 +51,12 @@ export class SidebarComponent implements OnInit {
     })
   }
 
+  public reload(){
+    setTimeout(()=>{
+      window.location.reload();
+    },600)
+  }
+
 
 
 

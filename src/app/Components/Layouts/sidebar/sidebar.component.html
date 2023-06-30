@@ -12,7 +12,7 @@
     </li>
 
     <li *ngFor="let projet of projets">
-      <a routerLink="/project/{{projet.ref}}">
+      <a routerLink="/project/{{projet.ref}}" (click)="reload()">
         <i class='bx bxs-shopping-bag-alt'></i>
        <span class="text"> <input style="background: var(--light);border:none;outline:none" type="text" [value]="projet.designation" (input)="setNameProjet(projet.ref,$event.target.value)"  class="text"> </span>
       </a>
