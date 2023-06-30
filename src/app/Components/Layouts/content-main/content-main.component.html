@@ -1,0 +1,282 @@
+
+  <div class="modal" id="md" tabindex="-1" role="dialog" style="display: none;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+           <h4 class="modal-title">Modification</h4>
+        </div>
+        <form #f="ngForm" (ngSubmit)="newTache(f.value)">
+        <div class="modal-body">
+
+          <div class="form-group" hidden="true">
+            <label for="exampleInputEmail1">Ref</label>
+            <input id="r" name="ref" [(ngModel)]="tache.ref" ngModel type="number" class="form-control" placeholder="Reference">
+            <small id="emailHelp" class="form-text text-muted">Reference.</small>
+          </div>
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Description</label>
+              <textarea [(ngModel)]="tache.description" name="description" ngModel class="form-control" placeholder="Description">{{tache.description}}</textarea>
+              <small id="emailHelp" class="form-text text-muted">Décrivez succinctement l'objectif de la tache.</small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Date de fin</label>
+              <input [(ngModel)]="tache.delai" value="{{tache.delai}}" name="delai" ngModel type="date" class="form-control" placeholder="Description">
+              <small id="emailHelp" class="form-text text-muted">Modifier le délai de votre tache.</small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Participant</label>
+
+              <div class="row-md-2">
+                <input type="text" id="email" class="form-control" placeholder="Email">
+                <button type="button" (click)="onSaveMember()" style="margin-top: 10px;" class="btn btn-primary">Save</button>
+
+              </div>
+
+            </div>
+
+
+              <div class="form-group">
+                <label for="exampleInputEmail1">Liste participants</label>
+
+                <select name="compteId" ngModel  class="form-control" placeholder="">
+                  <option *ngFor="let data of tache.compteResponseDTOS" [value]="data">{{data.nom}}</option>
+                </select>
+                <small id="emailHelp" class="form-text text-muted">Participants.</small>
+              </div>
+
+            <div class="form-check">
+              <input [(ngModel)]="tache.priority" type="checkbox" name="isPriority" ngModel class="form-check-input" >
+              <label class="form-check-label" for="exampleCheck1">Priorité?</label>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-danger" (click)="closePopup()">
+              Close
+            </button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+
+<section id="content">
+
+<!-- MAIN -->
+<main>
+
+
+  <div class="head-title">
+    <div class="left">
+      <h1>Géneral</h1>
+      <ul class="breadcrumb">
+        <li>
+          <a href="#">Vue</a>
+        </li>
+        <li><i class='bx bx-chevron-right' ></i></li>
+        <li>
+          <a class="active" href="#">Home</a>
+        </li>
+      </ul>
+    </div>
+    <a class="btn-download" style="cursor: pointer;" (click)="newGroupe()">
+      <i class='bx bxs-cloud-download'></i>
+
+      <span class="text">Nouveau</span>
+    </a>
+  </div>
+  <ul class="box-info">
+    <li>
+      <i class='bx bxs-calendar-check' ></i>
+      <span class="text">
+        <h3>1020</h3>
+        <p>Taches terminées</p>
+      </span>
+    </li>
+    <li>
+      <i class='bx bxs-group' ></i>
+      <span class="text">
+        <h3>2834</h3>
+        <p>Participants</p>
+      </span>
+    </li>
+    <li>
+      <i class='bx bxs-dollar-circle' ></i>
+      <span class="text">
+        <h3>$2543</h3>
+        <p>Total Sales</p>
+      </span>
+    </li>
+  </ul>
+
+  <div class="table-data" id="group">
+
+    <div class="todo" *ngFor="let groupe of groupes" id="menu-{{groupe.ref}}">
+      <div class="head">
+        <h3 style="font-weight: bold;"> <input id="input-{{groupe.ref}}" style="background: var(--light);border:none;outline:none;float:left" type="text" [value]="groupe.designation" (input)="setNameGroupe(groupe.ref)" class="text"></h3>
+
+          <i class="bx bx-plus" (click)="add(groupe.ref)"></i>
+          <i class="bx bx-minus" (click)="rm(groupe.ref)"></i>
+
+      </div>
+
+        <ul *ngFor="let tache of taches" class="todo-list" id="task-{{groupe.ref}}">
+
+        <li *ngIf="tache.groupeId == groupe.ref" [class]="tache.statutResponseDTO.designation" style="cursor:pointer" id="item-{{tache.ref}}">
+          <p class="text"> <input id="input-task-{{tache.ref}}" style="background:none;border:none;outline:none" type="text" value="{{tache.designation}}" (input)="setNameTask(tache.ref)"></p>
+
+              <b>
+                <i class="bx bx-color-fill" style="margin-right:10px" id="hey" (click)="clr(tache.ref)"></i>
+                <i class="bx bx-dots-vertical-rounded" id="dropdownMenuButton1" data-bs-toggle="dropdown"></i>
+                <i class="dropdown-menu">
+                    <a class="dropdown-item" (click)="openPopup(tache.ref)">Options</a>
+                    <a class="dropdown-item" (click)="del(tache.ref)">Delete</a>
+                </i>
+              </b>
+
+        </li>
+
+       </ul>
+
+    </div>
+
+    <!-- <div class="order">
+      <div class="head">
+        <h3>Recent Orders</h3>
+        <i class='bx bx-search' ></i>
+        <i class='bx bx-filter' ></i>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Date Order</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g">
+              <p>John Doe</p>
+            </td>
+            <td>01-10-2023</td>
+            <td><span class="status completed">Completed</span></td>
+          </tr>
+          <tr>
+            <td>
+              <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g">
+              <p>John Doe</p>
+            </td>
+            <td>01-10-2023</td>
+            <td><span class="status pending">Pending</span></td>
+          </tr>
+          <tr>
+            <td>
+              <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g">
+              <p>John Doe</p>
+            </td>
+            <td>01-10-2023</td>
+            <td><span class="status process">Process</span></td>
+          </tr>
+          <tr>
+            <td>
+              <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g">
+              <p>John Doe</p>
+            </td>
+            <td>01-10-2023</td>
+            <td><span class="status pending">Pending</span></td>
+          </tr>
+          <tr>
+            <td>
+              <img src="https://secure.gravatar.com/avatar/d09eaad01aea86c51b4f892b4f8abf6f?s=100&d=wavatar&r=g">
+              <p>John Doe</p>
+            </td>
+            <td>01-10-2023</td>
+            <td><span class="status completed">Completed</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>  -->
+
+    <!--
+    <div class="todo">
+      <div class="head">
+        <h3>Groupe </h3>
+        <i class='bx bx-plus'></i>
+        <i class='bx bx-filter'></i>
+      </div>
+      <ul class="todo-list">
+        <li class="completed">
+          <p>Todo List</p>
+          <i class='bx bx-dots-vertical-rounded' ></i>
+        </li>
+        <li class="completed">
+          <p>Todo List</p>
+          <i class='bx bx-dots-vertical-rounded' ></i>
+        </li>
+        <li class="not-completed">
+          <p>Todo List</p>
+          <i class='bx bx-dots-vertical-rounded' ></i>
+        </li>
+        <li class="completed">
+          <p>Todo List</p>
+          <i class='bx bx-dots-vertical-rounded' ></i>
+        </li>
+        <li class="not-completed">
+          <p>Todo List</p>
+          <i class='bx bx-dots-vertical-rounded' ></i>
+        </li>
+      </ul>
+    </div>
+    -->
+
+
+
+
+    <!--
+      <li *ngIf="type == 'pdf'" id="item-file-">
+      <i class="bi bi-file-earmark-pdf" style="color: red;"></i>
+    </li>
+    <li *ngIf="type == 'word'" id="item-file-">
+      <i class="bi bi-file-earmark-word" style="color: blue;"></i>
+    </li>
+    -->
+
+
+    <!--
+    <div class="todo">
+      <div class="head">
+        <h3>Groupe</h3>
+        <i class='bx bx-plus'  (click)="newTask(test)"></i>
+        <i class='bx bx-filter'></i>
+      </div>
+
+      <ul class="todo-list">
+        <li class="completed">
+          <p>Todo List</p>
+
+            <i class='bx bx-dots-vertical-rounded' id="dropdownMenuButton1" data-bs-toggle="dropdown"></i>
+            <i class="dropdown-menu">
+                  <a class="dropdown-item" href="#">Options</a>
+                  <a class="dropdown-item" href="#" (click)="delTask(test)">Delete</a>
+            </i>
+        </li>
+      </ul>
+
+
+
+    </div>
+    -->
+
+
+
+  </div>
+</main>
+<!-- MAIN -->
+
+</section>
+
+

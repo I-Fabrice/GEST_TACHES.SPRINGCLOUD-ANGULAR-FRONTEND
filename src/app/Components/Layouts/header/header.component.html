@@ -1,0 +1,22 @@
+<section id="content">
+  <!-- NAVBAR -->
+  <nav>
+    <i (click)="addToggle()" class='bx bx-menu' ></i>
+
+    <a href="#" class="nav-link"></a>
+    <form #f="ngForm" (ngSubmit)="newprojet(f.value)">
+      <div class="form-input">
+
+        <input name="designation" ngModel type="search" placeholder="Nouveau projet...">
+        <button  type="submit" class="search-btn"><i class='bx bx-plus' ></i></button>
+      </div>
+    </form>
+
+
+  </nav>
+</section>
+
+<app-sidebar [status]="status"></app-sidebar>
+
+
+
